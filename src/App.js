@@ -16,31 +16,31 @@ class App extends Component {
 
   handleFirstName=(event)=>{
     this.setState({
-        checkout:{firstName: event.target.value}
+        checkout:{...this.state.checkout,firstName: event.target.value}
     })
   }
 
   handleLastName=(event)=>{
     this.setState({
-        checkout:{lastName: event.target.value}
+        checkout:{...this.state.checkout,lastName: event.target.value}
     })
   }
 
   handleEmail=(event)=>{
     this.setState({
-        checkout:{email: event.target.value}
+        checkout:{...this.state.checkout,email: event.target.value}
     })
   }
 
   handleCard=(event)=>{
     this.setState({
-        checkout:{creditCard: event.target.value}
+        checkout:{...this.state.checkout,creditCard: event.target.value}
     })
   }
 
   handleZipCode=(event)=>{
     this.setState({
-        checkout:{zipCode: event.target.value}
+        checkout:{...this.state.checkout,zipCode: event.target.value}
     })
   }
 
@@ -48,19 +48,29 @@ class App extends Component {
     event.preventDefault();
     let cardStr = String(this.state.checkout.creditCard);
     let zipStr = String(this.state.checkout.zipCode);
-    console.log(card.length, zip.length);
-    if(cardLength !== 16){
+    let person = this.state.checkout;
+    console.log(cardStr, cardStr.length, zipStr, zipStr.length);
+    
+    if(person.firstName !== "" && 
+      person.lastName !== "" && 
+      person.email !== "" && 
+      cardStr.length === 16 && 
+      zipStr.length === 5){
+          alert(`Purchase complete. Total is ${formatPrice(this.state.cart.total)}`);
+      }else if(
+        person.firstName === "" || 
+        person.lastName === "" ||
+        person.email === "" || 
+        person.zipCode === "" || 
+        person.creditCard === ""){
+        alert('Input is not valid')
+      }
+      if(cardStr.length !== 16){
       alert('Credit card number is not valid.')
     }
-    if(zipLength !== 5){
+    if(zipStr.length !== 5){
       alert('Zip code is not valid')
     }
-    if(this.state.checkout.firstName !== "" &&
-      this.state.checkout.lastName !== "" &&
-      this.state.checkout.email !== "" &&
-      cardLength && zipLength){
-          alert(`Purchase complete. Total is ${formatPrice(this.state.cart.total)}`);
-      }
   }
   
 
@@ -107,27 +117,27 @@ class App extends Component {
 
             <label>First Name<br/><input
             type="text" value={this.state.checkout.firstName}
-            onInput={this.handleFirstName} placeholder="Jerry"
+            onChange={this.handleFirstName} placeholder="Jerry"
             /></label><br/>
                
             <label>Last Name<br/><input
             type="text" value={this.state.checkout.lastName}
-            onInput={this.handleLastName} placeholder="DeJesus"
+            onChange={this.handleLastName} placeholder="DeJesus"
             /></label><br/>
             
             <label>Email<br/><input
             type="email" value={this.state.checkout.email}
-            onInput={this.handleEmail} placeholder="example@gmail.com"
+            onChange={this.handleEmail} placeholder="example@gmail.com"
             /></label><br/>
             
             <label>Credit Card<br/><input
             type="text" value={this.state.checkout.creditCard}
-            onInput={this.handleCard} 
+            onChange={this.handleCard} 
             /></label><br/>
           
             <label>Zip Code<br/><input
             type="text" value={this.state.checkout.zipCode}
-            onInput={this.handleZipCode} 
+            onChange={this.handleZipCode} 
             /></label><br/>
             
             <button type="submit" >Buy Now</button>
