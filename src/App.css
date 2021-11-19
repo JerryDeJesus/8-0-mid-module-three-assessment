@@ -1,1 +1,13 @@
+#main{
+    display: grid;
+    grid-template-columns: 67% 33%;
+}
 
+.products{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.product{
+    max-width: 350px;
+}
